@@ -10,4 +10,4 @@
 - [ ] Not (too) bloated
 - [ ] that's already a lot...
 
-This will require me to learn about either datetime arithemtics (hell nah) or using a datetime library in C. I don't like using libraries, but datetime is a very strong exception.
+This will require me to learn about either datetime arithmetics (hell nah) or using a datetime library in C. I don't like using libraries, but datetime is a very strong exception.
