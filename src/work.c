@@ -32,6 +32,10 @@ void generateTexts(struct States *s, unsigned seed)
                 idx[i] = i;
 
         for (size_t i = 0; i < TOTAL_ELEMS; ++i) {
+                if (i == (TOTAL_ELEMS >> 1)) {
+                        s->slot_texts[i] = "Bad Anime\n(FREE SLOT)";
+                        continue;
+                }
                 int j = i + rand() % (s->text_num - i);
                 int tmp = idx[i];
                 idx[i] = idx[j];
