@@ -39,7 +39,7 @@ void drawContent(struct States *states)
                 .gap = GENERAL_PAD
         };
         // bingo buttons
-        for (unsigned i = 0; i < ELEMS*ELEMS; ++i) {
+        for (unsigned i = 0; i < TOTAL_ELEMS; ++i) {
                 Rectangle btn_rect = NextRight(&bingo_board);
                 if (
                         !GuiIsLocked() &&
