@@ -11,7 +11,7 @@ void generatePool(struct States *s)
         FILE *f = fopen("wordlist.txt", "r");
 
         if (!f) {
-                fputs("Couldn't open file.\n", stderr);
+                fputs("Couldn't open file. Make sure 'wordlist.txt' is next to executable.\n", stderr);
                 perror("generatePool");
                 exit(1);
         }
