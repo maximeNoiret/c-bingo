@@ -10,6 +10,12 @@ void generatePool(struct States *s)
 {
         FILE *f = fopen("wordlist.txt", "r");
 
+        if (!f) {
+                fputs("Couldn't open file.\n", stderr);
+                perror("generatePool");
+                exit(1);
+        }
+
         for (size_t i = 0; i < TEXT_NUM; ++i) {
                 if (!fgets(s->pool[i], TEXT_MAX_LEN, f))
                         break;
