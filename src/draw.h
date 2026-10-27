@@ -5,7 +5,7 @@
 #define GENERAL_PAD     2
 
 #define ELEMS           5
-#define TOTAL_ELEMS     25
+#define TOTAL_ELEMS     (ELEMS*ELEMS)
 #define ELEM_WIDTH      100
 #define CONTENT_X       (GENERAL_PAD)
 #define CONTENT_Y       (BAR_WIDTH + GENERAL_PAD)
