@@ -3,4 +3,7 @@
 
 #include "draw.h"
 
+void generatePool(struct States *s);
+void generateTexts(struct States *s);
+
 #endif  // _WORK_H_

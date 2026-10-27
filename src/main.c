@@ -5,6 +5,7 @@
 #include "raygui.h"
 
 #include "draw.h"
+#include "work.h"
 
 int main(void)
 {
@@ -14,40 +15,16 @@ int main(void)
 
         bool stop = false;
 
-        char *texts[25] = {
-                "Summoning",
-                "Rebirth",
-                "Reincarnation",
-                "OP for no\nreason",
-                "Somehow knows\nthe language",
-                "Bad long intro",
-                "20 years later...",
-                "Cheat skill",
-                "Goddess\nappears",
-                "Adventurers'\nGuild",
-                "Status screen",
-                "Demon Lord",
-                "Truck-kun\n(FREE SPACE)",
-                "Slime\nprotagonist",
-                "Harem forms\nunexplained",
-                "Modern knowledge\nsolves everything",
-                "Dies from\nmundane cause",
-                "Elf companion",
-                "Beast-girl\nslave",
-                "Rank-up\nexam",
-                "Tavern\nbrawl",
-                "Blushing\nat praise",
-                "Weakest class\nis secretly best",
-                "Villainess\nreincarnation",
-                "Overpowered\nin episode 1"
-        };
+        // TODO: load text from file (should create a file.c or data.c ig?)
 
         struct States states = {
-                .slot_texts = NULL,
+                .pool = {},
+                .slot_texts = {},
                 .slots = {0}
         };
 
-        states.slot_texts = texts;
+        generatePool(&states);
+        generateTexts(&states);
 
         while (!stop)
         {

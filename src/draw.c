@@ -46,8 +46,8 @@ void drawContent(struct States *states)
                         CheckCollisionPointRec(GetMousePosition(), btn_rect) &&
                         IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
                         states->slots[i] ^= 1;
-                char text[64];
-                snprintf(text, 64, "%s%s", states->slot_texts[i], (states->slots[i] ? "\n[X]" : ""));
-                GuiButton(btn_rect, text);          
+                char text[TEXT_MAX_LEN];
+                snprintf(text, TEXT_MAX_LEN, "%s%s", states->slot_texts[i], (states->slots[i] ? "\n[X]" : ""));
+                GuiButton(btn_rect, text);
         }
 }

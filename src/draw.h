@@ -15,7 +15,8 @@
 #define WINDOW_HEIGHT   (CONTENT_HEIGHT + 2*GENERAL_PAD + BAR_WIDTH)
 #define BAR_WIDTH       24
 
-
+#define TEXT_NUM        128
+#define TEXT_MAX_LEN    64
 
 struct Stack {
         Rectangle boundaries;
@@ -25,7 +26,8 @@ struct Stack {
 Rectangle NextRight(struct Stack *s);
 
 struct States {
-        char **slot_texts;
+        char pool[TEXT_NUM][TEXT_MAX_LEN];
+        char *slot_texts[TEXT_NUM];
         int slots[25];
 };
 
