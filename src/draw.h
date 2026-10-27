@@ -5,6 +5,7 @@
 #define GENERAL_PAD     2
 
 #define ELEMS           5
+#define TOTAL_ELEMS     25
 #define ELEM_WIDTH      100
 #define CONTENT_X       (GENERAL_PAD)
 #define CONTENT_Y       (BAR_WIDTH + GENERAL_PAD)
@@ -28,7 +29,8 @@ Rectangle NextRight(struct Stack *s);
 struct States {
         char pool[TEXT_NUM][TEXT_MAX_LEN];
         char *slot_texts[TEXT_NUM];
-        int slots[25];
+        size_t text_num;
+        int slots[TOTAL_ELEMS];
 };
 
 void drawContent(struct States *states);

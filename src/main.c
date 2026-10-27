@@ -1,5 +1,6 @@
-#include "raylib.h"
-#include "string.h"
+#include <raylib.h>
+#include <string.h>
+#include <time.h>
 
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
@@ -20,11 +21,12 @@ int main(void)
         struct States states = {
                 .pool = {},
                 .slot_texts = {},
+                .text_num = 0,
                 .slots = {0}
         };
 
         generatePool(&states);
-        generateTexts(&states);
+        generateTexts(&states, time(NULL));
 
         while (!stop)
         {

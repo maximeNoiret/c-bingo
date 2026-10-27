@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "raygui.h"
 #include "draw.h"
 
@@ -16,15 +17,25 @@ void generatePool(struct States *s)
                 for (char *c = s->pool[i]; *c; ++c)
                         if (*c == '|')
                                 *c = '\n';
+                ++s->text_num;
         }
 
         fclose(f);
 }
 
-void generateTexts(struct States *s)
+void generateTexts(struct States *s, unsigned seed)
 {
-        // TODO: random selection from pool.
-        for (size_t i = 0; i < TEXT_NUM; ++i) {
-                s->slot_texts[i] = s->pool[i];
+        srand(seed);
+
+        int idx[s->text_num];
+        for (size_t i = 0; i < s->text_num; ++i)
+                idx[i] = i;
+
+        for (size_t i = 0; i < TOTAL_ELEMS; ++i) {
+                int j = i + rand() % (s->text_num - i);
+                int tmp = idx[i];
+                idx[i] = idx[j];
+                idx[j] = tmp;
+                s->slot_texts[i] = s->pool[idx[i]];
         }
 }

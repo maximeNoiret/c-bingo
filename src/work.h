@@ -4,6 +4,6 @@
 #include "draw.h"
 
 void generatePool(struct States *s);
-void generateTexts(struct States *s);
+void generateTexts(struct States *s, unsigned seed);
 
 #endif  // _WORK_H_
