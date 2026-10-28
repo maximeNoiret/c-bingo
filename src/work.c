@@ -4,7 +4,8 @@
 #include "raygui.h"
 #include "draw.h"
 
-// Work code will go here. Prolly just a click(index) function or smth.
+// TODO/FIXME: This code is horrendous. Reused loops, easily factorizable code, and ugly mess.
+// This entire file dearly needs some proper love and refactorization. But for now, it works :shrug:
 
 void generatePool(struct States *s, char *file)
 {
@@ -77,6 +78,36 @@ void saveTexts(struct States *s)
                                 *c = '|';
                 fputs(tmp, f);
                 fputc('\n', f);
+        }
+
+        fclose(f);
+}
+
+void loadTexts(struct States *s)
+{
+        FILE *f = fopen(s->buf, "r");
+
+        if (!f) {
+                // TODO: handle error better. Maybe with a cool error MessageBox or something.
+                fputs("\n\nCouldn't open file to load.\n", stderr);
+                perror("saveTexts");
+                return;
+        }
+
+        // TODO: add proper incorrect file errors handling
+        //         stuff like wrong formatting, etc idk
+        for (size_t i = 0; i < TOTAL_ELEMS; ++i) {
+                if (!fgets(s->pool[i], TEXT_MAX_LEN, f)) {
+                        fprintf(stderr, "\n\nNot enough items in %s\n", s->buf);
+                        exit(1);
+                }
+                for (char *c = s->pool[i]; *c; ++c)
+                        if (*c == '|')
+                                *c = '\n';
+
+                for (size_t i = 0; i < TOTAL_ELEMS; ++i) {
+                        s->slot_texts[i] = s->pool[i];
+                }
         }
 
         fclose(f);

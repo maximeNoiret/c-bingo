@@ -9,7 +9,7 @@ constexpr unsigned BOTTOM_BAR_WIDTH     = 40;
 constexpr unsigned BOTTOM_BAR_BTN_H     = BOTTOM_BAR_WIDTH - 2 * GENERAL_PAD;
 constexpr unsigned BOTTOM_BAR_BTN_W     = 150;
 
-constexpr unsigned ELEMS                = 7;
+constexpr unsigned ELEMS                = 5;
 constexpr unsigned TOTAL_ELEMS          = ELEMS*ELEMS;
 constexpr unsigned ELEM_WIDTH           = 100;
 constexpr unsigned CONTENT_X            = GENERAL_PAD;
@@ -47,7 +47,7 @@ enum SAVE_BTNS {
 
 struct States {
         char pool[TEXT_NUM][TEXT_MAX_LEN];
-        char *slot_texts[TEXT_NUM];
+        char *slot_texts[TOTAL_ELEMS];
         size_t text_num;
         int slots[TOTAL_ELEMS];
         enum SUB_PAGE page;

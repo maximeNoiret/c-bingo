@@ -129,6 +129,28 @@ void drawSaveDialog(struct States *s) {
 
 void drawLoadDialog(struct States *s)
 {
-        s->page = PAGE_NONE;
-        return;
+        enum SAVE_BTNS btnActive = SAVE_NONE;
+
+        GuiTextInputBox(
+                (Rectangle){50, 50, 200, 150},
+                "Load board",
+                "Enter filepath to load board from",
+                s->buf,
+                MAX_FILE_PATH_LEN,
+                "Cancel;Load",
+                &btnActive,
+                false);
+
+        switch(btnActive) {
+        case SAVE_NONE:
+                break;
+        case SAVE_CONFIRM:
+                loadTexts(s);
+                [[fallthrough]];
+        case SAVE_CLOSE:
+        case SAVE_CANCEL:
+                btnActive = SAVE_NONE;
+                s->page = PAGE_NONE;
+                break;
+        }
 }
