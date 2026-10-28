@@ -70,7 +70,7 @@ void saveTexts(struct States *s)
         }
 
         for (size_t i = 0; i < TOTAL_ELEMS; ++i) {
-                char tmp[TEXT_MAX_LEN+1];
+                char tmp[TEXT_MAX_LEN+2];
                 tmp[0] = (s->slots[i] ? '1' : '0');
                 strncpy(tmp+1, s->slot_texts[i], TEXT_MAX_LEN);
                 // TODO?: make helper functions to clean up the code. (like nl2sp or smth)
