@@ -98,7 +98,7 @@ void loadTexts(struct States *s)
         // TODO: add proper incorrect file errors handling
         //         stuff like wrong formatting, etc idk
         for (size_t i = 0; i < TOTAL_ELEMS; ++i) {
-                s->slots[i] = fgetc(f) - 0x30;  // TODO: error handling on fgetc ig?
+                s->slots[i] = (fgetc(f) == '1');  // TODO: error handling on fgetc ig?
                 if (!fgets(s->pool[i], TEXT_MAX_LEN, f)) {
                         fprintf(stderr, "\n\nNot enough items in %s\n", s->buf);
                         exit(1);
