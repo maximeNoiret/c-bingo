@@ -70,10 +70,11 @@ void saveTexts(struct States *s)
         }
 
         for (size_t i = 0; i < TOTAL_ELEMS; ++i) {
-                char tmp[TEXT_MAX_LEN];
-                strncpy(tmp, s->slot_texts[i], TEXT_MAX_LEN);
+                char tmp[TEXT_MAX_LEN+1];
+                tmp[0] = (s->slots[i] ? '1' : '0');
+                strncpy(tmp+1, s->slot_texts[i], TEXT_MAX_LEN);
                 // TODO?: make helper functions to clean up the code. (like nl2sp or smth)
-                for (char *c = tmp; *c; ++c)
+                for (char *c = tmp+1; *c; ++c)
                         if (*c == '\n')
                                 *c = '|';
                 fputs(tmp, f);
@@ -97,10 +98,12 @@ void loadTexts(struct States *s)
         // TODO: add proper incorrect file errors handling
         //         stuff like wrong formatting, etc idk
         for (size_t i = 0; i < TOTAL_ELEMS; ++i) {
+                s->slots[i] = fgetc(f) - 0x30;  // TODO: error handling on fgetc ig?
                 if (!fgets(s->pool[i], TEXT_MAX_LEN, f)) {
                         fprintf(stderr, "\n\nNot enough items in %s\n", s->buf);
                         exit(1);
                 }
+                s->pool[i][strlen(s->pool[i]) - 1] = '\0';
                 for (char *c = s->pool[i]; *c; ++c)
                         if (*c == '|')
                                 *c = '\n';
