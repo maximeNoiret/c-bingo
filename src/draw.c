@@ -1,6 +1,7 @@
 #include <raylib.h>
 #include <math.h>
 #include <stdio.h>
+#include <string.h>
 #include "raygui.h"
 
 #include "draw.h"
@@ -20,7 +21,43 @@ Rectangle NextRight(struct Stack *s)
         return r;
 }
 
-void drawContent(struct States *states)
+void drawBottomBar(struct States *s)
+{
+        Rectangle botbar_boundaries = {
+                GENERAL_PAD,
+                CONTENT_Y + CONTENT_HEIGHT + GENERAL_PAD,
+                CONTENT_WIDTH,
+                BOTTOM_BAR_WIDTH - GENERAL_PAD
+        };
+        struct Stack botbar = {
+                .boundaries = botbar_boundaries,
+                .x = GENERAL_PAD,
+                .y = CONTENT_Y + CONTENT_HEIGHT + GENERAL_PAD,
+                .w = BOTTOM_BAR_BTN_W,
+                .h = BOTTOM_BAR_BTN_H,
+                .gap = GENERAL_PAD*2
+        };
+        // SAVE button
+        Rectangle btn_rect = NextRight(&botbar);
+        if (!GuiIsLocked() &&
+                CheckCollisionPointRec(GetMousePosition(), btn_rect) &&
+                IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
+                s->page = PAGE_SAVE;
+                memset(s->buf, '\0', sizeof(s->buf));
+        }
+        GuiButton(btn_rect, "Save Board");
+        // LOAD button
+        btn_rect = NextRight(&botbar);
+        if (!GuiIsLocked() &&
+                CheckCollisionPointRec(GetMousePosition(), btn_rect) &&
+                IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
+                s->page = PAGE_LOAD;
+                memset(s->buf, '\0', sizeof(s->buf));
+        }
+        GuiButton(btn_rect, "Load Board");
+}
+
+void drawContent(struct States *s)
 {
         GuiGroupBox(content_rect, NULL);
         // content boundaries and stack
@@ -42,12 +79,56 @@ void drawContent(struct States *states)
         for (unsigned i = 0; i < TOTAL_ELEMS; ++i) {
                 Rectangle btn_rect = NextRight(&bingo_board);
                 if (
-                        !GuiIsLocked() &&
+                        !GuiIsLocked() && s->page == PAGE_NONE &&
                         CheckCollisionPointRec(GetMousePosition(), btn_rect) &&
                         IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
-                        states->slots[i] ^= 1;
+                        s->slots[i] ^= 1;
                 char text[TEXT_MAX_LEN];
-                snprintf(text, TEXT_MAX_LEN, "%s%s", states->slot_texts[i], (states->slots[i] ? "\n[X]" : ""));
+                snprintf(text, TEXT_MAX_LEN, "%s%s", s->slot_texts[i], (s->slots[i] ? "\n[X]" : ""));
                 GuiButton(btn_rect, text);
         }
+
+        // SUB-PAGES
+        switch (s->page) {
+        case PAGE_NONE:
+                break;
+        case PAGE_SAVE:
+                drawSaveDialog(s);
+                break;
+        case PAGE_LOAD:
+                drawLoadDialog(s);
+        }
+}
+
+void drawSaveDialog(struct States *s) {
+        enum SAVE_BTNS btnActive = SAVE_NONE;
+
+        GuiTextInputBox(
+                (Rectangle){50, 50, 200, 150},
+                "Save board",
+                "Enter filepath to save board",
+                s->buf,
+                MAX_FILE_PATH_LEN,
+                "Cancel;Save",
+                &btnActive,
+                false);
+
+        switch(btnActive) {
+        case SAVE_NONE:
+                break;
+        case SAVE_CONFIRM:
+                saveTexts(s);
+                [[fallthrough]];
+        case SAVE_CLOSE:
+        case SAVE_CANCEL:
+                btnActive = SAVE_NONE;
+                s->page = PAGE_NONE;
+                break;
+        }
+}
+
+void drawLoadDialog(struct States *s)
+{
+        s->page = PAGE_NONE;
+        return;
 }

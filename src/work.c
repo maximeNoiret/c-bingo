@@ -6,12 +6,12 @@
 
 // Work code will go here. Prolly just a click(index) function or smth.
 
-void generatePool(struct States *s)
+void generatePool(struct States *s, char *file)
 {
-        FILE *f = fopen("wordlist.txt", "r");
+        FILE *f = fopen(file, "r");
 
         if (!f) {
-                fputs("Couldn't open file. Make sure 'wordlist.txt' is next to executable.\n", stderr);
+                fputs("\n\nCouldn't open file. Make sure 'wordlist.txt' is next to executable.\n", stderr);
                 perror("generatePool");
                 exit(1);
         }
@@ -33,6 +33,14 @@ void generateTexts(struct States *s, unsigned seed)
 {
         srand(seed);
 
+        if (s->text_num < TOTAL_ELEMS) {
+                fprintf(stderr, 
+                        "\n\n%zu texts found, at least %u needed for board of width %u.\n",
+                        s->text_num, TOTAL_ELEMS, ELEMS);
+                fputs("Not enough items in word list.\n", stderr);
+                exit(1);
+        }
+
         int idx[s->text_num];
         for (size_t i = 0; i < s->text_num; ++i)
                 idx[i] = i;
@@ -48,4 +56,28 @@ void generateTexts(struct States *s, unsigned seed)
                 idx[j] = tmp;
                 s->slot_texts[i] = s->pool[idx[i]];
         }
+}
+
+void saveTexts(struct States *s)
+{
+        FILE *f = fopen(s->buf, "w");
+
+        if (!f) {
+                fputs("\n\nCouldn't open file to save.\n", stderr);
+                perror("saveTexts");
+                exit(1);
+        }
+
+        for (size_t i = 0; i < TOTAL_ELEMS; ++i) {
+                char tmp[TEXT_MAX_LEN];
+                strncpy(tmp, s->slot_texts[i], TEXT_MAX_LEN);
+                // TODO?: make helper functions to clean up the code. (like nl2sp or smth)
+                for (char *c = tmp; *c; ++c)
+                        if (*c == '\n')
+                                *c = '|';
+                fputs(tmp, f);
+                fputc('\n', f);
+        }
+
+        fclose(f);
 }

@@ -22,10 +22,12 @@ int main(void)
                 .pool = {},
                 .slot_texts = {},
                 .text_num = 0,
-                .slots = {0}
+                .slots = {0},
+                .page = PAGE_NONE,
+                .buf = {0}
         };
 
-        generatePool(&states);
+        generatePool(&states, "wordlist.txt");
         generateTexts(&states, time(NULL));
 
         while (!stop)
@@ -38,6 +40,7 @@ int main(void)
                         "Bingo") == 1)
                         stop = true;
 
+                drawBottomBar(&states);
                 drawContent(&states);
 
                 EndDrawing();
