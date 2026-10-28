@@ -12,7 +12,7 @@ int main(void)
 {
         InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Bingo");
         EnableEventWaiting();
-        SetTargetFPS(60);
+        SetTargetFPS(20);
 
         bool stop = false;
 
