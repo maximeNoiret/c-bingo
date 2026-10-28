@@ -76,10 +76,11 @@ void drawContent(struct States *s)
                 .gap = GENERAL_PAD
         };
         // bingo buttons
+        if (s->page != PAGE_NONE) GuiLock();
         for (unsigned i = 0; i < TOTAL_ELEMS; ++i) {
                 Rectangle btn_rect = NextRight(&bingo_board);
                 if (
-                        !GuiIsLocked() && s->page == PAGE_NONE &&
+                        !GuiIsLocked() &&
                         CheckCollisionPointRec(GetMousePosition(), btn_rect) &&
                         IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
                         s->slots[i] ^= 1;
@@ -87,6 +88,8 @@ void drawContent(struct States *s)
                 snprintf(text, TEXT_MAX_LEN, "%s%s", s->slot_texts[i], (s->slots[i] ? "\n[X]" : ""));
                 GuiButton(btn_rect, text);
         }
+
+        GuiUnlock();
 
         // SUB-PAGES
         switch (s->page) {
