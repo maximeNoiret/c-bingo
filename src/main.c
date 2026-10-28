@@ -34,6 +34,10 @@ int main(void)
         {
                 BeginDrawing();
 
+                // silly thingy, probably not a good idea but eh
+                if (states.page != PAGE_NONE) DisableEventWaiting();
+                else EnableEventWaiting();
+
                 ClearBackground(GetColor(GuiGetStyle(DEFAULT, BACKGROUND_COLOR)));
                 if (GuiWindowBox(
                         (Rectangle){0, 0, WINDOW_WIDTH, WINDOW_HEIGHT},
