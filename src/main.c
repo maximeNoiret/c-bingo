@@ -52,6 +52,9 @@ int main(void)
                         stop = true;
         }
 
+        strncpy(states.buf, "autosave.txt", MAX_FILE_PATH_LEN);
+        saveTexts(&states);
+
         CloseWindow();
         return 0;
 }
