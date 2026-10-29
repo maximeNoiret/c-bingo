@@ -8,14 +8,20 @@
 // TODO/FIXME: This code is horrendous. Reused loops, easily factorizable code, and ugly mess.
 // This entire file dearly needs some proper love and refactorization. But for now, it works :shrug:
 
+// TODO: make helper function/macro for error message box
+
 void generatePool(struct States *s, char *file)
 {
         FILE *f = fopen(file, "r");
 
         if (!f) {
-                fputs("\n\nCouldn't open file. Make sure 'wordlist.txt' is next to executable.\n", stderr);
+                const char *fmt = "Couldn't open file. Make sure %s is next to executable.\n%s\n";
+                s->errStop = true;
+                s->page = PAGE_ERR;
+                snprintf(s->msg, sizeof(s->msg), fmt, file, strerror(errno));
+                fprintf(stderr, fmt, file, strerror(errno));
                 perror("generatePool");
-                exit(1);
+                return;
         }
 
         for (size_t i = 0; i < TEXT_NUM; ++i) {
@@ -39,7 +45,7 @@ void generateTexts(struct States *s, unsigned seed)
                 const char *fmt = "%zu texts found.\nat least %u needed for board of width %u.\n";
                 s->errStop = true;
                 s->page = PAGE_ERR;
-                snprintf(s->buf, sizeof(s->buf), fmt, s->text_num, TOTAL_ELEMS, ELEMS);
+                snprintf(s->msg, sizeof(s->msg), fmt, s->text_num, TOTAL_ELEMS, ELEMS);
                 fprintf(stderr, fmt, s->text_num, TOTAL_ELEMS, ELEMS);
                 fputs("Not enough items in word list.\n", stderr);
                 return;
@@ -70,7 +76,7 @@ void saveTexts(struct States *s)
                 const char *fmt = "Couldn't open file to save.\n%s\n";
                 s->errStop = false;
                 s->page = PAGE_ERR;
-                snprintf(s->buf, sizeof(s->buf), fmt, strerror(errno));
+                snprintf(s->msg, sizeof(s->msg), fmt, strerror(errno));
                 fprintf(stderr, fmt, strerror(errno));
                 perror("saveTexts");
                 return;
@@ -96,8 +102,11 @@ void loadTexts(struct States *s)
         FILE *f = fopen(s->buf, "r");
 
         if (!f) {
-                // TODO: handle error better. Maybe with a cool error MessageBox or something.
-                fputs("\n\nCouldn't open file to load.\n", stderr);
+                const char *fmt = "Couldn't open file to load.\n%s\n";
+                s->errStop = false;
+                s->page = PAGE_ERR;
+                snprintf(s->msg, sizeof(s->msg), fmt, strerror(errno));
+                fprintf(stderr, fmt, strerror(errno));
                 perror("saveTexts");
                 return;
         }
@@ -107,8 +116,13 @@ void loadTexts(struct States *s)
         for (size_t i = 0; i < TOTAL_ELEMS; ++i) {
                 s->slots[i] = (fgetc(f) == '1');  // TODO: error handling on fgetc ig?
                 if (!fgets(s->pool[i], TEXT_MAX_LEN, f)) {
-                        fprintf(stderr, "\n\nNot enough items in %s\n", s->buf);
-                        exit(1);
+                        // TODO: make helper function/macro for error message box
+                        const char *fmt = "Not enough items in %s\n";
+                        s->errStop = false;
+                        s->page = PAGE_ERR;
+                        snprintf(s->msg, sizeof(s->msg), fmt, s->buf);
+                        fprintf(stderr, fmt, s->buf);
+                        return;
                 }
                 s->pool[i][strlen(s->pool[i]) - 1] = '\0';
                 for (char *c = s->pool[i]; *c; ++c)

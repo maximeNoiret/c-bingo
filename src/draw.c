@@ -155,6 +155,8 @@ void drawLoadDialog(struct States *s)
                 break;
         case SAVE_CONFIRM:
                 loadTexts(s);
+                if (s->page == PAGE_ERR)
+                        break;
                 [[fallthrough]];
         case SAVE_CLOSE:
         case SAVE_CANCEL:
@@ -170,7 +172,7 @@ void drawErrorMessage(struct States *s)
         GuiMessageBox(
                 (Rectangle){50, 50, 400, 300},
                 "Error",
-                s->buf,
+                s->msg,
                 "Ok",
                 &btn);
 

@@ -23,7 +23,8 @@ constexpr unsigned WINDOW_HEIGHT        = (CONTENT_HEIGHT + 2*GENERAL_PAD + BAR_
 #define TEXT_NUM        128
 #define TEXT_MAX_LEN    64
 
-#define MAX_FILE_PATH_LEN 64
+#define MAX_FILE_PATH_LEN 256
+#define MAX_MSG_LEN MAX_FILE_PATH_LEN+64
 
 struct Stack {
         Rectangle boundaries;
@@ -54,6 +55,7 @@ struct States {
         int slots[TOTAL_ELEMS];
         enum SUB_PAGE page;
         char buf[MAX_FILE_PATH_LEN];
+        char msg[MAX_MSG_LEN];
         bool stop;
         bool errStop;
 };
