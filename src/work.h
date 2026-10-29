@@ -3,6 +3,10 @@
 
 #include "draw.h"
 
+struct Config {
+        bool autosave;
+};
+
 void generatePool(struct States *s, char *file);
 void generateTexts(struct States *s, unsigned seed);
 

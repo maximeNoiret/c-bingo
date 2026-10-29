@@ -37,6 +37,7 @@ enum SUB_PAGE {
         PAGE_NONE,
         PAGE_SAVE,
         PAGE_LOAD,
+        PAGE_SETT,
         PAGE_ERR
 };
 
@@ -49,6 +50,7 @@ enum SAVE_BTNS {
 
 // TODO: group elements to have better padding
 struct States {
+        struct Config *config;
         char pool[TEXT_NUM][TEXT_MAX_LEN];
         char *slot_texts[TOTAL_ELEMS];
         size_t text_num;
@@ -65,6 +67,7 @@ void drawContent(struct States *s);
 
 void drawSaveDialog(struct States *s);
 void drawLoadDialog(struct States *s);
+void drawSettingsPage(struct States *s);
 void drawErrorMessage(struct States *s);
 
 
