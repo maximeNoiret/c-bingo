@@ -81,9 +81,8 @@ void drawBottomBar(struct States *s)
         GuiButton(btn_rect, "Settings");
 }
 
-void drawContent(struct States *s)
+void drawBoard(struct States *s)
 {
-        GuiGroupBox(content_rect, NULL);
         // content boundaries and stack
         Rectangle bingo_boundaries = {
                 content_rect.x + GENERAL_PAD,
@@ -114,8 +113,13 @@ void drawContent(struct States *s)
         }
 
         GuiUnlock();
+}
 
-        // SUB-PAGES
+void drawContent(struct States *s)
+{
+        GuiGroupBox(content_rect, NULL);
+        
+        drawBoard(s);
         switch (s->page) {
         case PAGE_NONE:
                 break;
