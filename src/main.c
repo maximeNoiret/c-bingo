@@ -56,7 +56,7 @@ int main(void)
                         states.stop = true;
         }
 
-        if (states.config->autosave && !states.errStop) {
+        if (!states.errStop && states.config->autosave) {
                 strncpy(states.buf, "autosave.txt", MAX_FILE_PATH_LEN);
                 saveTexts(&states);
         }
