@@ -111,7 +111,7 @@ void drawSaveDialog(struct States *s) {
         enum SAVE_BTNS btnActive = SAVE_NONE;
 
         GuiTextInputBox(
-                (Rectangle){50, 50, 200, 150},
+                (Rectangle){50, 50, 200, 150},  // TODO: use adaptive size instead of fixed size
                 "Save board",
                 "Enter filepath to save board",
                 s->buf,
@@ -141,7 +141,7 @@ void drawLoadDialog(struct States *s)
         enum SAVE_BTNS btnActive = SAVE_NONE;
 
         GuiTextInputBox(
-                (Rectangle){50, 50, 200, 150},
+                (Rectangle){50, 50, 200, 150},  // TODO: use adaptive size instead of fixed size
                 "Load board",
                 "Enter filepath to load board from",
                 s->buf,
@@ -170,7 +170,7 @@ void drawErrorMessage(struct States *s)
 {
         int btn = -1;
         GuiMessageBox(
-                (Rectangle){50, 50, 400, 300},
+                (Rectangle){50, 50, 400, 300},  // TODO: use adaptive size instead of fixed size
                 "Error",
                 s->msg,
                 "Ok",
