@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <errno.h>
 #include "raygui.h"
 #include "draw.h"
 
@@ -35,11 +36,13 @@ void generateTexts(struct States *s, unsigned seed)
         srand(seed);
 
         if (s->text_num < TOTAL_ELEMS) {
-                fprintf(stderr, 
-                        "\n\n%zu texts found, at least %u needed for board of width %u.\n",
-                        s->text_num, TOTAL_ELEMS, ELEMS);
+                const char *fmt = "%zu texts found.\nat least %u needed for board of width %u.\n";
+                s->errStop = true;
+                s->page = PAGE_ERR;
+                snprintf(s->buf, sizeof(s->buf), fmt, s->text_num, TOTAL_ELEMS, ELEMS);
+                fprintf(stderr, fmt, s->text_num, TOTAL_ELEMS, ELEMS);
                 fputs("Not enough items in word list.\n", stderr);
-                exit(1);
+                return;
         }
 
         int idx[s->text_num];
