@@ -27,7 +27,8 @@ int main(void)
         };
 
         generatePool(&states, "wordlist.txt");
-        generateTexts(&states, time(NULL));
+        if (states.page != PAGE_ERR)
+                generateTexts(&states, time(NULL));
 
         while (!states.stop)
         {
