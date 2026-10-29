@@ -21,6 +21,17 @@ Rectangle NextRight(struct Stack *s)
         return r;
 }
 
+Rectangle NextBottom(struct Stack *s)
+{
+        Rectangle r = { s->x, s->y, s->w, s->h };
+        s->y += s->h + s->gap;
+        if (s->y + (float)s->h > s->boundaries.y + s->boundaries.height) {
+                s->y = s->boundaries.y;
+                s->x += s->w + s->gap;
+        }
+        return r;
+}
+
 void drawBottomBar(struct States *s)
 {
         Rectangle botbar_boundaries = {
