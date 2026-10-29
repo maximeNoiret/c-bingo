@@ -67,11 +67,11 @@ void saveTexts(struct States *s)
         FILE *f = fopen(s->buf, "w");
 
         if (!f) {
-                const char *msg = "Couldn't open file to save.\n%s\n";
+                const char *fmt = "Couldn't open file to save.\n%s\n";
                 s->errStop = false;
                 s->page = PAGE_ERR;
-                snprintf(s->buf, sizeof(s->buf), msg, strerror(errno));
-                fprintf(stderr, msg, strerror(errno));
+                snprintf(s->buf, sizeof(s->buf), fmt, strerror(errno));
+                fprintf(stderr, fmt, strerror(errno));
                 perror("saveTexts");
                 return;
         }
