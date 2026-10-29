@@ -125,6 +125,8 @@ void drawSaveDialog(struct States *s) {
                 break;
         case SAVE_CONFIRM:
                 saveTexts(s);
+                if (s->page == PAGE_ERR)
+                        break;
                 [[fallthrough]];
         case SAVE_CLOSE:
         case SAVE_CANCEL:
