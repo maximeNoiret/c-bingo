@@ -35,7 +35,8 @@ Rectangle NextRight(struct Stack *s);
 enum SUB_PAGE {
         PAGE_NONE,
         PAGE_SAVE,
-        PAGE_LOAD
+        PAGE_LOAD,
+        PAGE_ERR
 };
 
 enum SAVE_BTNS {
@@ -45,6 +46,7 @@ enum SAVE_BTNS {
         SAVE_CONFIRM
 };
 
+// TODO: group elements to have better padding
 struct States {
         char pool[TEXT_NUM][TEXT_MAX_LEN];
         char *slot_texts[TOTAL_ELEMS];
@@ -52,6 +54,8 @@ struct States {
         int slots[TOTAL_ELEMS];
         enum SUB_PAGE page;
         char buf[MAX_FILE_PATH_LEN];
+        bool stop;
+        bool errStop;
 };
 
 void drawBottomBar(struct States *s);
@@ -59,5 +63,7 @@ void drawContent(struct States *s);
 
 void drawSaveDialog(struct States *s);
 void drawLoadDialog(struct States *s);
+void drawErrorMessage(struct States *s);
+
 
 #endif  // _DRAW_H_

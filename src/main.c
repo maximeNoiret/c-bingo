@@ -14,8 +14,6 @@ int main(void)
         EnableEventWaiting();
         SetTargetFPS(20);
 
-        bool stop = false;
-
         // TODO: load text from file (should create a file.c or data.c ig?)
 
         struct States states = {
@@ -24,13 +22,14 @@ int main(void)
                 .text_num = 0,
                 .slots = {0},
                 .page = PAGE_NONE,
-                .buf = {0}
+                .buf = {0},
+                .stop = false
         };
 
         generatePool(&states, "wordlist.txt");
         generateTexts(&states, time(NULL));
 
-        while (!stop)
+        while (!states.stop)
         {
                 BeginDrawing();
 
@@ -42,18 +41,20 @@ int main(void)
                 if (GuiWindowBox(
                         (Rectangle){0, 0, WINDOW_WIDTH, WINDOW_HEIGHT},
                         "Bingo") == 1)
-                        stop = true;
+                        states.stop = true;
 
                 drawBottomBar(&states);
                 drawContent(&states);
 
                 EndDrawing();
                 if (WindowShouldClose())
-                        stop = true;
+                        states.stop = true;
         }
 
-        strncpy(states.buf, "autosave.txt", MAX_FILE_PATH_LEN);
-        saveTexts(&states);
+        if (!states.errStop) {
+                strncpy(states.buf, "autosave.txt", MAX_FILE_PATH_LEN);
+                saveTexts(&states);
+        }
 
         CloseWindow();
         return 0;

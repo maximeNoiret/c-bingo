@@ -100,6 +100,10 @@ void drawContent(struct States *s)
                 break;
         case PAGE_LOAD:
                 drawLoadDialog(s);
+                break;
+        case PAGE_ERR:
+                drawErrorMessage(s);
+                break;
         }
 }
 
@@ -155,5 +159,23 @@ void drawLoadDialog(struct States *s)
                 btnActive = SAVE_NONE;
                 s->page = PAGE_NONE;
                 break;
+        }
+}
+
+void drawErrorMessage(struct States *s)
+{
+        int btn = -1;
+        GuiMessageBox(
+                (Rectangle){50, 50, 400, 300},
+                "Error",
+                s->buf,
+                "Ok",
+                &btn);
+
+        if (btn >= 0) {
+                if (s->errStop)
+                        s->stop = true;
+                else
+                        s->page = PAGE_NONE;
         }
 }
