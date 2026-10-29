@@ -14,9 +14,13 @@ int main(void)
         EnableEventWaiting();
         SetTargetFPS(20);
 
-        // TODO: load text from file (should create a file.c or data.c ig?)
+        // TODO: load config from config file
+        struct Config config = {
+                .autosave = true
+        };
 
         struct States states = {
+                .config = &config,
                 .pool = {},
                 .slot_texts = {},
                 .text_num = 0,
@@ -52,7 +56,7 @@ int main(void)
                         states.stop = true;
         }
 
-        if (!states.errStop) {
+        if (!states.errStop && states.config->autosave) {
                 strncpy(states.buf, "autosave.txt", MAX_FILE_PATH_LEN);
                 saveTexts(&states);
         }

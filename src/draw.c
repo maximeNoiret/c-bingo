@@ -21,6 +21,17 @@ Rectangle NextRight(struct Stack *s)
         return r;
 }
 
+Rectangle NextBottom(struct Stack *s)
+{
+        Rectangle r = { s->x, s->y, s->w, s->h };
+        s->y += s->h + s->gap;
+        if (s->y + (float)s->h > s->boundaries.y + s->boundaries.height) {
+                s->y = s->boundaries.y;
+                s->x += s->w + s->gap;
+        }
+        return r;
+}
+
 void drawBottomBar(struct States *s)
 {
         Rectangle botbar_boundaries = {
@@ -55,11 +66,23 @@ void drawBottomBar(struct States *s)
                 memset(s->buf, '\0', sizeof(s->buf));
         }
         GuiButton(btn_rect, "Load Board");
+
+        btn_rect = (Rectangle){
+                botbar_boundaries.x + botbar_boundaries.width - BOTTOM_BAR_BTN_W,
+                botbar_boundaries.y,
+                BOTTOM_BAR_BTN_W,
+                BOTTOM_BAR_BTN_H};
+        if (!GuiIsLocked() &&
+                CheckCollisionPointRec(GetMousePosition(), btn_rect) &&
+                IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
+                s->page = PAGE_SETT;
+                memset(s->buf, '\0', sizeof(s->buf));
+        }
+        GuiButton(btn_rect, "Settings");
 }
 
-void drawContent(struct States *s)
+void drawBoard(struct States *s)
 {
-        GuiGroupBox(content_rect, NULL);
         // content boundaries and stack
         Rectangle bingo_boundaries = {
                 content_rect.x + GENERAL_PAD,
@@ -90,8 +113,13 @@ void drawContent(struct States *s)
         }
 
         GuiUnlock();
+}
 
-        // SUB-PAGES
+void drawContent(struct States *s)
+{
+        GuiGroupBox(content_rect, NULL);
+        
+        drawBoard(s);
         switch (s->page) {
         case PAGE_NONE:
                 break;
@@ -100,6 +128,9 @@ void drawContent(struct States *s)
                 break;
         case PAGE_LOAD:
                 drawLoadDialog(s);
+                break;
+        case PAGE_SETT:
+                drawSettingsPage(s);
                 break;
         case PAGE_ERR:
                 drawErrorMessage(s);
@@ -164,6 +195,44 @@ void drawLoadDialog(struct States *s)
                 s->page = PAGE_NONE;
                 break;
         }
+}
+
+void drawSettingsPage(struct States *s)
+{
+        Rectangle settings_bound = {50, 50, 400, 300};  // TODO: use adaptive size instead of fixed size
+        if (GuiWindowBox(settings_bound, "Settings") == 1)
+                s->page = PAGE_NONE;
+
+        struct Stack labels = {
+                .boundaries = (Rectangle) {
+                        settings_bound.x + (GENERAL_PAD << 2),
+                        settings_bound.y + GENERAL_PAD + BAR_WIDTH,
+                        settings_bound.width - (GENERAL_PAD << 1),
+                        settings_bound.height - (GENERAL_PAD << 1)
+                },
+                .x = settings_bound.x + (GENERAL_PAD << 2),
+                .y = settings_bound.y + GENERAL_PAD + BAR_WIDTH,
+                .w = settings_bound.width / 4,
+                .h = BAR_WIDTH,  // TODO: Test different label height? idk
+                .gap = GENERAL_PAD
+        };
+
+        struct Stack controls = {
+                .boundaries = settings_bound,
+                .x = labels.x + labels.w,  // TODO: see if this is good or not
+                .y = settings_bound.y + GENERAL_PAD + BAR_WIDTH,
+                .w = settings_bound.width / 4,
+                .h = BAR_WIDTH,  // TODO: Test different label height? idk
+                .gap = GENERAL_PAD
+        };
+
+        // autosave
+        int autosave = (int)s->config->autosave;
+        GuiLabel(NextBottom(&labels), "Autosave");
+        GuiToggleSlider(NextBottom(&controls), "OFF;ON", &autosave);
+
+        s->config->autosave = (autosave == 1);
+
 }
 
 void drawErrorMessage(struct States *s)
