@@ -164,6 +164,9 @@ void drawSaveDialog(struct States *s) {
                 &btnActive,
                 false);
 
+        if (IsKeyPressed(KEY_ENTER))
+                btnActive = SAVE_CONFIRM;
+
         switch(btnActive) {
         case SAVE_NONE:
                 break;
@@ -193,6 +196,9 @@ void drawLoadDialog(struct States *s)
                 "Cancel;Load",
                 &btnActive,
                 false);
+
+        if (IsKeyPressed(KEY_ENTER))
+                btnActive = SAVE_CONFIRM;
 
         switch(btnActive) {
         case SAVE_NONE:
