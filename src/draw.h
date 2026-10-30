@@ -5,9 +5,6 @@
 #define GENERAL_PAD             2
 #define BAR_WIDTH               24
 
-constexpr unsigned BOTTOM_BAR_WIDTH     = 40;
-constexpr unsigned BOTTOM_BAR_BTN_H     = BOTTOM_BAR_WIDTH - 2 * GENERAL_PAD;
-constexpr unsigned BOTTOM_BAR_BTN_W     = 150;
 
 constexpr unsigned ELEMS                = 5;
 constexpr unsigned TOTAL_ELEMS          = ELEMS*ELEMS;
@@ -16,6 +13,10 @@ constexpr unsigned CONTENT_X            = GENERAL_PAD;
 constexpr unsigned CONTENT_Y            = (BAR_WIDTH + GENERAL_PAD);
 constexpr unsigned CONTENT_WIDTH        = (ELEMS * ELEM_WIDTH + (ELEMS+1) * GENERAL_PAD);
 constexpr unsigned CONTENT_HEIGHT       = (ELEMS * ELEM_WIDTH + (ELEMS+1) * GENERAL_PAD);
+
+constexpr unsigned BOTTOM_BAR_WIDTH     = 40;
+constexpr unsigned BOTTOM_BAR_BTN_H     = BOTTOM_BAR_WIDTH - 2 * GENERAL_PAD;
+constexpr unsigned BOTTOM_BAR_BTN_W     = ELEMS*28;
 
 constexpr unsigned WINDOW_WIDTH         = (CONTENT_WIDTH + 2*GENERAL_PAD);
 constexpr unsigned WINDOW_HEIGHT        = (CONTENT_HEIGHT + 2*GENERAL_PAD + BAR_WIDTH + BOTTOM_BAR_WIDTH);
