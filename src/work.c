@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <errno.h>
 #include "raygui.h"
+#include "work.h"
 #include "draw.h"
 
 // TODO/FIXME: This code is horrendous. Reused loops, easily factorizable code, and ugly mess.
@@ -10,8 +11,9 @@
 
 // TODO: make helper function/macro for error message box
 
-void generatePool(struct States *s, char *file)
+void generatePool(struct States *s)
 {
+        char *file = s->config->wordlist_src;
         FILE *f = fopen(file, "r");
 
         if (!f) {

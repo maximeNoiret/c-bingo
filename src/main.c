@@ -32,7 +32,7 @@ int main(void)
                 .stop = false
         };
 
-        generatePool(&states, states.config->wordlist_src);
+        generatePool(&states);
         if (states.page != PAGE_ERR)
                 generateTexts(&states, time(NULL));
 

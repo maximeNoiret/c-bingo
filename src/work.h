@@ -8,7 +8,7 @@ struct Config {
         bool autosave;
 };
 
-void generatePool(struct States *s, char *file);
+void generatePool(struct States *s);
 void generateTexts(struct States *s, unsigned seed);
 
 void saveTexts(struct States *s);
