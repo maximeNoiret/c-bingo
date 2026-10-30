@@ -13,6 +13,7 @@ int main(void)
         InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Bingo");
         EnableEventWaiting();
         SetTargetFPS(20);
+        SetExitKey(0);
 
         // TODO: load config from config file
         struct Config config = {
