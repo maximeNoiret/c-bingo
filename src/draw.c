@@ -67,18 +67,32 @@ void drawBottomBar(struct States *s)
         }
         GuiButton(btn_rect, "Load Board");
 
-        btn_rect = (Rectangle){
+        Rectangle settings_btn = {
                 botbar_boundaries.x + botbar_boundaries.width - BOTTOM_BAR_BTN_W,
                 botbar_boundaries.y,
                 BOTTOM_BAR_BTN_W,
                 BOTTOM_BAR_BTN_H};
         if (!GuiIsLocked() &&
-                CheckCollisionPointRec(GetMousePosition(), btn_rect) &&
+                CheckCollisionPointRec(GetMousePosition(), settings_btn) &&
                 IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
                 s->page = PAGE_SETT;
                 memset(s->buf, '\0', sizeof(s->buf));
         }
-        GuiButton(btn_rect, "Settings");
+        GuiButton(settings_btn, "Settings");
+
+        // refresh button is square. W = H
+        Rectangle refresh_btn = {
+                settings_btn.x - BOTTOM_BAR_BTN_H - GENERAL_PAD,
+                botbar_boundaries.y,
+                BOTTOM_BAR_BTN_H,
+                BOTTOM_BAR_BTN_H};
+        if (!GuiIsLocked() &&
+                CheckCollisionPointRec(GetMousePosition(), refresh_btn) &&
+                IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
+                // TODO: refresh board
+                refreshBoard(s);
+        }
+        GuiButton(refresh_btn, "#77#");
 }
 
 void drawBoard(struct States *s)

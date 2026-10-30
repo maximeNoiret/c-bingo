@@ -15,6 +15,8 @@ int main(void)
         SetTargetFPS(20);
         SetExitKey(0);
 
+        srand(time(NULL));
+
         // TODO: load config from config file
         struct Config config = {
                 .wordlist_src = "wordlist.txt",
@@ -34,7 +36,7 @@ int main(void)
 
         generatePool(&states);
         if (states.page != PAGE_ERR)
-                generateTexts(&states, time(NULL));
+                generateTexts(&states);
 
         while (!states.stop)
         {
