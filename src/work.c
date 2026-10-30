@@ -142,7 +142,6 @@ void loadTexts(struct States *s)
 void refreshBoard(struct States *s)
 {
         memset(s->slots, 0, sizeof(s->slots));
-        clearProgress(s);
         generatePool(s);
         generateTexts(s);
 }
