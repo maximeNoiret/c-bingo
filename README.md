@@ -24,7 +24,7 @@ sudo make uninstall
 ```
 
 ## Collaborating
-You can create pull requests with code changes suggestions. I will review them and accept them (most probably since I suck at programming lmao). And if your pull request teaches me something, even better :p\
+You can create pull requests with code changes suggestions. I will review them and accept them (most probably since I suck at programming lmao). And if your pull request teaches me something, even better :p
 - In term of code-style and such, I'd appreciate you sticking to 8-spaces indentation.
 - Try to limit your lines to at most 100 characters, too. If you really can't, it's not that bad, but yeah.
     - It's okay to go past that if writing a long string tho
