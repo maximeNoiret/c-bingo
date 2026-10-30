@@ -39,6 +39,9 @@ int main(void)
         {
                 BeginDrawing();
 
+                if (IsKeyPressed(KEY_ESCAPE))
+                        states.page = PAGE_NONE;
+
                 // silly thingy, probably not a good idea but eh
                 if (states.page != PAGE_NONE) DisableEventWaiting();
                 else EnableEventWaiting();
