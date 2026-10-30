@@ -9,9 +9,10 @@ struct Config {
 };
 
 void generatePool(struct States *s);
-void generateTexts(struct States *s, unsigned seed);
+void generateTexts(struct States *s);
 
 void saveTexts(struct States *s);
 void loadTexts(struct States *s);
+void refreshBoard(struct States *s);
 
 #endif  // _WORK_H_

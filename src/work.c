@@ -15,7 +15,6 @@ void generatePool(struct States *s)
 {
         char *file = s->config->wordlist_src;
         FILE *f = fopen(file, "r");
-
         // TODO: Make this not close but instead inform to set wordlist source in config
         if (!f) {
                 const char *fmt = "Couldn't open file. Make sure %s is next to executable.\n%s\n";
@@ -27,6 +26,7 @@ void generatePool(struct States *s)
                 return;
         }
 
+        s->text_num = 0;
         for (size_t i = 0; i < TEXT_NUM; ++i) {
                 if (!fgets(s->pool[i], TEXT_MAX_LEN, f))
                         break;
@@ -40,11 +40,8 @@ void generatePool(struct States *s)
         fclose(f);
 }
 
-// TODO: do we need to give the seed? Also that means doing srand every single time we call this function...
-void generateTexts(struct States *s, unsigned seed)
+void generateTexts(struct States *s)
 {
-        srand(seed);
-
         // TODO: Make this not close but instead inform to set wordlist source in config and click refresh
         if (s->text_num < TOTAL_ELEMS) {
                 const char *fmt = "%zu texts found.\nat least %u needed for board of width %u.\n";
@@ -140,4 +137,18 @@ void loadTexts(struct States *s)
         }
 
         fclose(f);
+}
+
+void clearProgress(struct States *s)
+{
+        for (size_t i = 0; i < TOTAL_ELEMS; ++i) {
+                s->slots[i] = 0;
+        }
+}
+
+void refreshBoard(struct States *s)
+{
+        clearProgress(s);
+        generatePool(s);
+        generateTexts(s);
 }
