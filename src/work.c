@@ -139,15 +139,9 @@ void loadTexts(struct States *s)
         fclose(f);
 }
 
-void clearProgress(struct States *s)
-{
-        for (size_t i = 0; i < TOTAL_ELEMS; ++i) {
-                s->slots[i] = 0;
-        }
-}
-
 void refreshBoard(struct States *s)
 {
+        memset(s->slots, 0, sizeof(s->slots));
         clearProgress(s);
         generatePool(s);
         generateTexts(s);
