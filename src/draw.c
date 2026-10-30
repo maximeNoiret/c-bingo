@@ -89,7 +89,6 @@ void drawBottomBar(struct States *s)
         if (!GuiIsLocked() &&
                 CheckCollisionPointRec(GetMousePosition(), refresh_btn) &&
                 IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
-                // TODO: refresh board
                 refreshBoard(s);
         }
         GuiButton(refresh_btn, "#77#");
