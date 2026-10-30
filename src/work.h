@@ -4,7 +4,7 @@
 #include "draw.h"
 
 struct Config {
-        char *wordlist_src;
+        char wordlist_src[MAX_FILE_PATH_LEN];
         bool autosave;
 };
 

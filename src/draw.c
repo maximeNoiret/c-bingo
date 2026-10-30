@@ -249,9 +249,11 @@ void drawSettingsPage(struct States *s)
         int autosave = (int)s->config->autosave;
         GuiLabel(NextBottom(&labels), "Autosave");
         GuiToggleSlider(NextBottom(&controls), "OFF;ON", &autosave);
-
         s->config->autosave = (autosave == 1);
 
+        // wordlist source file
+        GuiLabel(NextBottom(&labels), "Source File");
+        GuiTextBox(NextBottom(&controls), s->config->wordlist_src, sizeof(s->config->wordlist_src), true);
 }
 
 void drawErrorMessage(struct States *s)
