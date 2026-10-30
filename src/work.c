@@ -58,7 +58,7 @@ void generateTexts(struct States *s)
                 idx[i] = i;
 
         for (size_t i = 0; i < TOTAL_ELEMS; ++i) {
-                if (i == (TOTAL_ELEMS >> 1)) {
+                if (i == (TOTAL_ELEMS >> 1) && s->config->freeSpace) {
                         s->slot_texts[i] = "Bad Anime\n(FREE SLOT)";
                         continue;
                 }

@@ -20,7 +20,8 @@ int main(void)
         // TODO: load config from config file
         struct Config config = {
                 .wordlist_src = {0},
-                .autosave = true
+                .autosave = true,
+                .freeSpace = true
         };
         // This is temporary. Requires load config from file
         strncpy(config.wordlist_src, "wordlist.txt", MAX_FILE_PATH_LEN);

@@ -254,6 +254,12 @@ void drawSettingsPage(struct States *s)
         // wordlist source file
         GuiLabel(NextBottom(&labels), "Source File");
         GuiTextBox(NextBottom(&controls), s->config->wordlist_src, sizeof(s->config->wordlist_src), true);
+
+        // middle free space
+        int freespace = (int)s->config->freeSpace;
+        GuiLabel(NextBottom(&labels), "Free Space");
+        GuiToggleSlider(NextBottom(&controls), "OFF;ON", &freespace);
+        s->config->freeSpace = (freespace == 1);
 }
 
 void drawErrorMessage(struct States *s)
