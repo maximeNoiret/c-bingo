@@ -4,6 +4,7 @@
 #include "draw.h"
 
 struct Config {
+        char *wordlist_src;
         bool autosave;
 };
 

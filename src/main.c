@@ -17,6 +17,7 @@ int main(void)
 
         // TODO: load config from config file
         struct Config config = {
+                .wordlist_src = "wordlist.txt",
                 .autosave = true
         };
 
@@ -31,7 +32,7 @@ int main(void)
                 .stop = false
         };
 
-        generatePool(&states, "wordlist.txt");
+        generatePool(&states, states.config->wordlist_src);
         if (states.page != PAGE_ERR)
                 generateTexts(&states, time(NULL));
 
