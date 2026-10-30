@@ -18,7 +18,7 @@ You can also install it on your system... if for some reason you want that.
 ```
 sudo make install
 ```
-And once you realize it's pointless to install it because, at least for now, you need the wordlist.txt file in your current working directory, you can uninstall it with this.
+And once you realize it's pointless to install it because, at least for now since you need the wordlist.txt file in your current working directory, you can uninstall it with this.
 ```
 sudo make uninstall
 ```
