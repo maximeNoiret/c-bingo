@@ -1,3 +1,4 @@
 /MAKEFILE_COPY
-build
+lib-win
+build*
 *.txt

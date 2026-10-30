@@ -1,10 +1,8 @@
 #ifndef _DRAW_H_
 #define _DRAW_H_
 
-
 #define GENERAL_PAD             2
 #define BAR_WIDTH               24
-
 
 constexpr unsigned ELEMS                = 5;
 constexpr unsigned TOTAL_ELEMS          = ELEMS*ELEMS;
