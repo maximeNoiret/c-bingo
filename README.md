@@ -2,8 +2,9 @@
 
 Just a simple project for me to learn `raylib` and `raygui`
 
-Note: If you're seeing this on Github, this is a mirror repo.\
-Source is on [PurparGit][src-repo-link].
+> [!NOTE]
+> If you're seeing this on Github, this is a mirror repo.
+> Source is on [PurparGit][src-repo-link].
 
 ## Installing
 ### Windows - [Releases][releases-link]
@@ -31,6 +32,9 @@ You can create pull requests with code changes suggestions. I will review them a
 - In term of code-style and such, I'd appreciate you sticking to 8-spaces indentation.
 - Try to limit your lines to at most 100 characters, too. If you really can't, it's not that bad, but yeah.
     - It's okay to go past that if writing a long string tho
+
+> [!WARNING]
+> I will only accept pull requests made on [PurparGit][src-repo-link]
 
 If you don't know how to code, you can still help me by creating issues in the [project page][project-link]. I'd appreciate you not spamming it too much though :x.
 
