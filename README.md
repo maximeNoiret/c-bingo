@@ -2,6 +2,9 @@
 
 Just a simple project for me to learn `raylib` and `raygui`
 
+Note: If you're seeing this on Github, this is a mirror repo.\
+Source is on [PurparGit][src-repo-link].
+
 ## Installing
 ### Windows - [Releases][releases-link]
 If you're on Windows, you can use the pre-compiled binary in the [releases][releases-link] page.
@@ -31,5 +34,6 @@ You can create pull requests with code changes suggestions. I will review them a
 
 If you don't know how to code, you can still help me by creating issues in the [project page][project-link]. I'd appreciate you not spamming it too much though :x.
 
+[src-repo-link]: https://git.purparmalm.com/maximeNoiret/c-bingo
 [releases-link]: https://git.purparmalm.com/maximeNoiret/c-bingo/releases
 [project-link]: https://git.purparmalm.com/maximeNoiret/c-bingo/projects/3
