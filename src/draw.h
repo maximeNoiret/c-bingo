@@ -2,6 +2,8 @@
 #define _DRAW_H_
 
 #define GENERAL_PAD             2
+#define PAGE_PAD                25
+#define PAGE_PAD2               PAGE_PAD*2
 #define BAR_WIDTH               24
 #define BOTTOM_BAR_WIDTH        40
 #define BOTTOM_BUTTON_COEF      28

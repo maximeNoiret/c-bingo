@@ -158,9 +158,13 @@ void drawSaveDialog(struct States *s) {
         enum SAVE_BTNS btnActive = SAVE_NONE;
 
         GuiTextInputBox(
-                (Rectangle){50, 50, 200, 150},  // TODO: use adaptive size instead of fixed size
+                (Rectangle){
+                        PAGE_PAD,
+                        PAGE_PAD,
+                        200,
+                        150},  // TODO: use adaptive size instead of fixed size
                 "Save board",
-                "Enter filepath to save board",
+                "Enter filepath to save board to",
                 s->buf,
                 MAX_FILE_PATH_LEN,
                 "Cancel;Save",
@@ -191,7 +195,11 @@ void drawLoadDialog(struct States *s)
         enum SAVE_BTNS btnActive = SAVE_NONE;
 
         GuiTextInputBox(
-                (Rectangle){50, 50, 200, 150},  // TODO: use adaptive size instead of fixed size
+                (Rectangle){
+                        PAGE_PAD,
+                        PAGE_PAD,
+                        200,
+                        150},  // TODO: use adaptive size instead of fixed size
                 "Load board",
                 "Enter filepath to load board from",
                 s->buf,
@@ -221,7 +229,11 @@ void drawLoadDialog(struct States *s)
 
 void drawSettingsPage(struct States *s)
 {
-        Rectangle settings_bound = {50, 50, 300, 300};  // TODO: use adaptive size instead of fixed size
+        Rectangle settings_bound = {
+                PAGE_PAD,
+                PAGE_PAD,
+                s->config->window_width-PAGE_PAD2,
+                s->config->window_height-PAGE_PAD2};
         if (GuiWindowBox(settings_bound, "Settings") == 1) {
                 applySettings(s);
                 s->page = PAGE_NONE;
