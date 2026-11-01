@@ -25,6 +25,13 @@ void refreshConfig(struct Config *c)
         c->window_height      = c->content_height + 2 * GENERAL_PAD + BAR_WIDTH + c->bottom_bar_width;
 }
 
+void applySettings(struct States *s)
+{
+        refreshConfig(s->config);
+        refreshBoard(s);
+        SetWindowSize(s->config->window_width, s->config->window_height);
+}
+
 // TODO: make helper function/macro for error message box
 
 void generatePool(struct States *s)

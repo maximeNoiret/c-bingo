@@ -221,9 +221,11 @@ void drawLoadDialog(struct States *s)
 
 void drawSettingsPage(struct States *s)
 {
-        Rectangle settings_bound = {50, 50, 400, 300};  // TODO: use adaptive size instead of fixed size
-        if (GuiWindowBox(settings_bound, "Settings") == 1)
+        Rectangle settings_bound = {50, 50, 300, 300};  // TODO: use adaptive size instead of fixed size
+        if (GuiWindowBox(settings_bound, "Settings") == 1) {
+                applySettings(s);
                 s->page = PAGE_NONE;
+        }
 
         struct Stack labels = {
                 .boundaries = (Rectangle) {
@@ -263,6 +265,12 @@ void drawSettingsPage(struct States *s)
         GuiLabel(NextBottom(&labels), "Free Space");
         GuiToggleSlider(NextBottom(&controls), "OFF;ON", &freespace);
         s->config->freeSpace = (freespace == 1);
+
+        // board size
+        int boardSize = s->config->board_width - 3;
+        GuiLabel(NextBottom(&labels), "Board Width");
+        GuiToggleSlider(NextBottom(&controls), "3;4;5;6;7", &boardSize);
+        s->config->board_width = boardSize + 3;
 }
 
 void drawErrorMessage(struct States *s)
