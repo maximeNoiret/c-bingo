@@ -28,7 +28,10 @@ void refreshConfig(struct Config *c)
 void applySettings(struct States *s)
 {
         refreshConfig(s->config);
-        refreshBoard(s);
+        if (s->config->board_width != s->config->tmp) {
+                refreshBoard(s);
+                s->config->tmp = s->config->board_width;
+        }
         SetWindowSize(s->config->window_width, s->config->window_height);
 }
 

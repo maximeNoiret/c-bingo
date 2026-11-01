@@ -6,6 +6,7 @@
 // TODO: Choose proper types for elements (not just unsigned everywhere lmao)
 struct Config {
         char wordlist_src[MAX_FILE_PATH_LEN];
+        unsigned tmp;  // used to track if board_width changed
         unsigned board_width;
         unsigned board_spaces;
         unsigned space_width;
