@@ -16,6 +16,15 @@
 // TODO/FIXME: This code is horrendous. Reused loops, easily factorizable code, and ugly mess.
 // This entire file dearly needs some proper love and refactorization. But for now, it works :shrug:
 
+const char *fmt = "wordlist_src:%s\n"
+                  "board_width:%u\n"
+                  "space_width:%u\n"
+                  "autosave:%u\n"
+                  "autoreload:%u\n"
+                  "freeSpace:%u\n";
+
+const unsigned config_count = 6;
+
 void createConfigFile(const char *file)
 {
         if (access(file, F_OK) == 0)
@@ -29,11 +38,7 @@ void createConfigFile(const char *file)
                 exit(1);
         }
 
-        fprintf(f, "wordlist_src:wordlist.txt\n"
-                "board_width:%u\n"
-                "space_width:%u\n"
-                "autosave:%u\n"
-                "freeSpace:%u\n",
+        fprintf(f, fmt, "wordlist.txt",
                 DEFAULT_ELEMS, DEFAULT_ELEM_WIDTH, DEFAULT_AUTOSAVE, DEFAULT_FREESPACE);
         fclose(f);
 }
@@ -48,19 +53,15 @@ void loadConfigFile(struct Config *c, const char *file)
                 exit(1);
         }
         // lol. lmao even.
-        int err = fscanf(f,
-                "wordlist_src:%s\n"
-                "board_width:%u\n"
-                "space_width:%u\n"
-                "autosave:%u\n"
-                "freeSpace:%u\n",
+        int err = fscanf(f, fmt,
                 c->wordlist_src,
                 &c->board_width,
                 &c->space_width,
                 (unsigned*)&c->autosave,
+                (unsigned*)&c->autoreload,
                 (unsigned*)&c->freeSpace);
         fclose(f);
-        if (err != 5) {
+        if (err != config_count) {
                 // TODO: handle this better
                 fputs("Config file corrupted\n", stderr);
                 exit(1);
@@ -77,15 +78,12 @@ void saveConfigFile(struct Config *c, const char *file)
                 exit(1);
         }
 
-        fprintf(f, "wordlist_src:%s\n"
-                "board_width:%u\n"
-                "space_width:%u\n"
-                "autosave:%u\n"
-                "freeSpace:%u\n",
+        fprintf(f, fmt,
                 c->wordlist_src,
                 c->board_width,
                 c->space_width,
                 (unsigned)c->autosave,
+                (unsigned)c->autoreload,
                 (unsigned)c->freeSpace);
         fclose(f);
 }
@@ -168,7 +166,7 @@ void generateTexts(struct States *s)
 
         for (size_t i = 0; i < s->config->board_spaces; ++i) {
                 if (i == (s->config->board_spaces >> 1) && s->config->freeSpace) {
-                        s->slot_texts[i] = "Bad Anime\n(FREE SLOT)";
+                        s->slot_texts[i] = "Bad Anime\n(FREE SPACE)";
                         continue;
                 }
                 int j = i + rand() % (s->text_num - i);

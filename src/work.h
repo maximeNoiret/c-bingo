@@ -24,6 +24,7 @@ struct Config {
         unsigned window_width;
         unsigned window_height;
         bool autosave;
+        bool autoreload;
         bool freeSpace;
 };
 

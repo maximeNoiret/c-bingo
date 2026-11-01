@@ -16,6 +16,7 @@ int main(void)
         createConfigFile(CONFIG_FILE);
         loadConfigFile(&config, CONFIG_FILE);
         refreshConfig(&config);
+        config.tmp = config.board_width;
 
         struct States states = {
                 .config = &config,
@@ -28,9 +29,14 @@ int main(void)
                 .stop = false
         };
 
-        generatePool(&states);
-        if (states.page != PAGE_ERR)
-                generateTexts(&states);
+        if (config.autoreload) {
+                strncpy(states.buf, "autosave.txt", 13);
+                loadTexts(&states);
+        } else {
+                generatePool(&states);
+                if (states.page != PAGE_ERR)
+                        generateTexts(&states);
+        }
 
         InitWindow(config.window_width, config.window_height, "Bingo");
         EnableEventWaiting();

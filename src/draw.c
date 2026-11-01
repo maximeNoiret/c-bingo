@@ -263,20 +263,26 @@ void drawSettingsPage(struct States *s)
         };
 
         // autosave
-        int autosave = (int)s->config->autosave;
+        int tmp = (int)s->config->autosave;
         GuiLabel(NextBottom(&labels), "Autosave");
-        GuiToggleSlider(NextBottom(&controls), "OFF;ON", &autosave);
-        s->config->autosave = (autosave == 1);
+        GuiToggleSlider(NextBottom(&controls), "OFF;ON", &tmp);
+        s->config->autosave = (tmp == 1);
+
+        // auto-reload autosave
+        tmp = (int)s->config->autoreload;
+        GuiLabel(NextBottom(&labels), "Autoreload");
+        GuiToggleSlider(NextBottom(&controls), "OFF;ON", &tmp);
+        s->config->autoreload = (tmp == 1);
+
+        // middle free space
+        tmp = (int)s->config->freeSpace;
+        GuiLabel(NextBottom(&labels), "Free Space");
+        GuiToggleSlider(NextBottom(&controls), "OFF;ON", &tmp);
+        s->config->freeSpace = (tmp == 1);
 
         // wordlist source file
         GuiLabel(NextBottom(&labels), "Source File");
         GuiTextBox(NextBottom(&controls), s->config->wordlist_src, sizeof(s->config->wordlist_src), true);
-
-        // middle free space
-        int freespace = (int)s->config->freeSpace;
-        GuiLabel(NextBottom(&labels), "Free Space");
-        GuiToggleSlider(NextBottom(&controls), "OFF;ON", &freespace);
-        s->config->freeSpace = (freespace == 1);
 
         // board size
         int boardSize = s->config->board_width - 3;
