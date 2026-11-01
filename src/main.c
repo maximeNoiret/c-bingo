@@ -49,8 +49,11 @@ int main(void)
         {
                 BeginDrawing();
 
-                if (IsKeyPressed(KEY_ESCAPE))
+                if (IsKeyPressed(KEY_ESCAPE)) {
+                        if (states.page == PAGE_SETT)
+                                applySettings(&states);
                         states.page = PAGE_NONE;
+                }
 
                 // silly thingy, probably not a good idea but eh
                 if (states.page != PAGE_NONE) DisableEventWaiting();

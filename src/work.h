@@ -23,6 +23,7 @@ struct Config {
 };
 
 void refreshConfig(struct Config *c);
+void applySettings(struct States *s);
 
 void generatePool(struct States *s);
 void generateTexts(struct States *s);
