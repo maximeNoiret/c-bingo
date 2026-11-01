@@ -26,9 +26,13 @@ struct Config {
         bool autosave;
         bool freeSpace;
 };
+
+// TODO?: move these to config.h and config.c? not really necessary but yeah
 void createConfigFile(const char *file);
 void loadConfigFile(struct Config *c, const char *file);
+void saveConfigFile(struct Config *c, const char *file);
 void refreshConfig(struct Config *c);
+
 void applySettings(struct States *s);
 
 void generatePool(struct States *s);

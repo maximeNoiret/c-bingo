@@ -30,10 +30,10 @@ void createConfigFile(const char *file)
         }
 
         fprintf(f, "wordlist_src:wordlist.txt\n"
-                "board_width:%d\n"
-                "space_width:%d\n"
-                "autosave:%d\n"
-                "freeSpace:%d\n",
+                "board_width:%u\n"
+                "space_width:%u\n"
+                "autosave:%u\n"
+                "freeSpace:%u\n",
                 DEFAULT_ELEMS, DEFAULT_ELEM_WIDTH, DEFAULT_AUTOSAVE, DEFAULT_FREESPACE);
         fclose(f);
 }
@@ -67,6 +67,29 @@ void loadConfigFile(struct Config *c, const char *file)
         }
 }
 
+void saveConfigFile(struct Config *c, const char *file)
+{
+        FILE *f = fopen(file, "w");
+        if (!f) {
+                // TODO: Error message thingy. Will do once I have the errorMessage component :3
+                fputs("Couldn't open config file to save.\n", stderr);
+                perror("saveConfigFile");
+                exit(1);
+        }
+
+        fprintf(f, "wordlist_src:%s\n"
+                "board_width:%u\n"
+                "space_width:%u\n"
+                "autosave:%u\n"
+                "freeSpace:%u\n",
+                c->wordlist_src,
+                c->board_width,
+                c->space_width,
+                (unsigned)c->autosave,
+                (unsigned)c->freeSpace);
+        fclose(f);
+}
+
 void refreshConfig(struct Config *c)
 {
         // FIXME: This is messy no?
@@ -89,6 +112,7 @@ void applySettings(struct States *s)
                 refreshBoard(s);
                 s->config->tmp = s->config->board_width;
         }
+        saveConfigFile(s->config, CONFIG_FILE);
         SetWindowSize(s->config->window_width, s->config->window_height);
 }
 
