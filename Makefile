@@ -32,7 +32,7 @@ check:
 	LC_ALL=C ./checkpatch.pl --strict --ignore LONG_LINE_STRING --ignore SPDX_LICENSE_TAG --no-tree -f $(SRCDIR)/*.c $(SRCDIR)/*.h
 
 debug: CFLAGS = $(CFLAGS_DEBUG)
-debug: $(BLDDIR)/main
+debug: $(BLDDIR)/bingo
 
 # Needs lib-win/ with include/ and lib/ from raylib's win64_mingw-w64 zip:
 # https://github.com/raysan5/raylib/releases
