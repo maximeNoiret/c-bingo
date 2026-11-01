@@ -2,6 +2,13 @@
 #include <string.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <unistd.h>
+#ifdef WIN32  // dumb windows compatibility...
+#include <io.h>
+#define F_OK 0
+#define access _access
+#endif
+
 #include "raygui.h"
 #include "work.h"
 #include "draw.h"
@@ -9,6 +16,23 @@
 // TODO/FIXME: This code is horrendous. Reused loops, easily factorizable code, and ugly mess.
 // This entire file dearly needs some proper love and refactorization. But for now, it works :shrug:
 
+void createConfigFile(const char *file)
+{
+        if (access(file, F_OK) == 0)
+                return;  // file exists, return
+
+        FILE *f = fopen(file, "w");
+        if (!f) {
+                // TODO: Error message thingy. Will do once I have the errorMessage component :3
+                exit(1);
+        }
+
+        fprintf(f, "wordlist_src:wordlist.txt\n"
+                "space_width:%d\n"
+                "autosave:%d\n"
+                "freeSpace:%d\n",
+                DEFAULT_ELEM_WIDTH, DEFAULT_AUTOSAVE, DEFAULT_FREESPACE);
+}
 
 void refreshConfig(struct Config *c)
 {

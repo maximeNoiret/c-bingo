@@ -12,6 +12,8 @@ int main(void)
 {
         srand(time(NULL));
 
+        createConfigFile("bingo.cfg");  // checks if it doesn't exist first obviously
+
         // TODO: load config from config file
         struct Config config = {
                 .wordlist_src = {0},
