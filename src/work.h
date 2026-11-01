@@ -3,6 +3,10 @@
 
 #include "draw.h"
 
+#define DEFAULT_AUTOSAVE        1
+#define DEFAULT_FREESPACE       1
+#define CONFIG_FILE             "bingo.cfg"
+
 // TODO: Choose proper types for elements (not just unsigned everywhere lmao)
 struct Config {
         char wordlist_src[MAX_FILE_PATH_LEN];
@@ -23,7 +27,12 @@ struct Config {
         bool freeSpace;
 };
 
+// TODO?: move these to config.h and config.c? not really necessary but yeah
+void createConfigFile(const char *file);
+void loadConfigFile(struct Config *c, const char *file);
+void saveConfigFile(struct Config *c, const char *file);
 void refreshConfig(struct Config *c);
+
 void applySettings(struct States *s);
 
 void generatePool(struct States *s);

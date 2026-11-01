@@ -2,6 +2,13 @@
 #include <string.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <unistd.h>
+#ifdef WIN32  // dumb windows compatibility...
+#include <io.h>
+#define F_OK 0
+#define access _access
+#endif
+
 #include "raygui.h"
 #include "work.h"
 #include "draw.h"
@@ -9,6 +16,79 @@
 // TODO/FIXME: This code is horrendous. Reused loops, easily factorizable code, and ugly mess.
 // This entire file dearly needs some proper love and refactorization. But for now, it works :shrug:
 
+void createConfigFile(const char *file)
+{
+        if (access(file, F_OK) == 0)
+                return;  // file exists, return
+
+        FILE *f = fopen(file, "w");
+        if (!f) {
+                // TODO: Error message thingy. Will do once I have the errorMessage component :3
+                fputs("Couldn't create or open config file.\n", stderr);
+                perror("createConfigFile");
+                exit(1);
+        }
+
+        fprintf(f, "wordlist_src:wordlist.txt\n"
+                "board_width:%u\n"
+                "space_width:%u\n"
+                "autosave:%u\n"
+                "freeSpace:%u\n",
+                DEFAULT_ELEMS, DEFAULT_ELEM_WIDTH, DEFAULT_AUTOSAVE, DEFAULT_FREESPACE);
+        fclose(f);
+}
+
+void loadConfigFile(struct Config *c, const char *file)
+{
+        FILE *f = fopen(file, "r");
+        if (!f) {
+                // TODO: Error message thingy. Will do once I have the errorMessage component :3
+                fputs("Couldn't open for load config file.\n", stderr);
+                perror("loadConfigFile");
+                exit(1);
+        }
+        // lol. lmao even.
+        int err = fscanf(f,
+                "wordlist_src:%s\n"
+                "board_width:%u\n"
+                "space_width:%u\n"
+                "autosave:%u\n"
+                "freeSpace:%u\n",
+                c->wordlist_src,
+                &c->board_width,
+                &c->space_width,
+                (unsigned*)&c->autosave,
+                (unsigned*)&c->freeSpace);
+        fclose(f);
+        if (err != 5) {
+                // TODO: handle this better
+                fputs("Config file corrupted\n", stderr);
+                exit(1);
+        }
+}
+
+void saveConfigFile(struct Config *c, const char *file)
+{
+        FILE *f = fopen(file, "w");
+        if (!f) {
+                // TODO: Error message thingy. Will do once I have the errorMessage component :3
+                fputs("Couldn't open config file to save.\n", stderr);
+                perror("saveConfigFile");
+                exit(1);
+        }
+
+        fprintf(f, "wordlist_src:%s\n"
+                "board_width:%u\n"
+                "space_width:%u\n"
+                "autosave:%u\n"
+                "freeSpace:%u\n",
+                c->wordlist_src,
+                c->board_width,
+                c->space_width,
+                (unsigned)c->autosave,
+                (unsigned)c->freeSpace);
+        fclose(f);
+}
 
 void refreshConfig(struct Config *c)
 {
@@ -32,6 +112,7 @@ void applySettings(struct States *s)
                 refreshBoard(s);
                 s->config->tmp = s->config->board_width;
         }
+        saveConfigFile(s->config, CONFIG_FILE);
         SetWindowSize(s->config->window_width, s->config->window_height);
 }
 

@@ -12,17 +12,9 @@ int main(void)
 {
         srand(time(NULL));
 
-        // TODO: load config from config file
-        struct Config config = {
-                .wordlist_src = {0},
-                .board_width = DEFAULT_ELEMS,
-                .space_width = DEFAULT_ELEM_WIDTH,
-                .autosave = true,
-                .freeSpace = true
-        };
-        // This is temporary. Requires load config from file
-        strncpy(config.wordlist_src, "wordlist.txt", MAX_FILE_PATH_LEN);
-
+        struct Config config;
+        createConfigFile(CONFIG_FILE);
+        loadConfigFile(&config, CONFIG_FILE);
         refreshConfig(&config);
 
         struct States states = {
