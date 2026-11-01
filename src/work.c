@@ -24,14 +24,47 @@ void createConfigFile(const char *file)
         FILE *f = fopen(file, "w");
         if (!f) {
                 // TODO: Error message thingy. Will do once I have the errorMessage component :3
+                fputs("Couldn't create or open config file.\n", stderr);
+                perror("createConfigFile");
                 exit(1);
         }
 
         fprintf(f, "wordlist_src:wordlist.txt\n"
+                "board_width:%d\n"
                 "space_width:%d\n"
                 "autosave:%d\n"
                 "freeSpace:%d\n",
-                DEFAULT_ELEM_WIDTH, DEFAULT_AUTOSAVE, DEFAULT_FREESPACE);
+                DEFAULT_ELEMS, DEFAULT_ELEM_WIDTH, DEFAULT_AUTOSAVE, DEFAULT_FREESPACE);
+        fclose(f);
+}
+
+void loadConfigFile(struct Config *c, const char *file)
+{
+        FILE *f = fopen(file, "r");
+        if (!f) {
+                // TODO: Error message thingy. Will do once I have the errorMessage component :3
+                fputs("Couldn't open for load config file.\n", stderr);
+                perror("loadConfigFile");
+                exit(1);
+        }
+        // lol. lmao even.
+        int err = fscanf(f,
+                "wordlist_src:%s\n"
+                "board_width:%u\n"
+                "space_width:%u\n"
+                "autosave:%u\n"
+                "freeSpace:%u\n",
+                c->wordlist_src,
+                &c->board_width,
+                &c->space_width,
+                (unsigned*)&c->autosave,
+                (unsigned*)&c->freeSpace);
+        fclose(f);
+        if (err != 5) {
+                // TODO: handle this better
+                fputs("Config file corrupted\n", stderr);
+                exit(1);
+        }
 }
 
 void refreshConfig(struct Config *c)

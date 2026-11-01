@@ -5,6 +5,7 @@
 
 #define DEFAULT_AUTOSAVE        1
 #define DEFAULT_FREESPACE       1
+#define CONFIG_FILE             "bingo.cfg"
 
 // TODO: Choose proper types for elements (not just unsigned everywhere lmao)
 struct Config {
@@ -26,6 +27,7 @@ struct Config {
         bool freeSpace;
 };
 void createConfigFile(const char *file);
+void loadConfigFile(struct Config *c, const char *file);
 void refreshConfig(struct Config *c);
 void applySettings(struct States *s);
 
