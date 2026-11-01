@@ -11,6 +11,11 @@ Just a simple project for me to learn `raylib` and `raygui`
 If you're on Windows, you can use the pre-compiled binary in the [releases][releases-link] page.
 ### Linux - Building from Source
 If you're on Linux, you know how to enter a command in the terminal.
+Only dependency needed beyond a C compiler is `raylib`:
+```
+# Arch
+sudo pacman -S raylib
+```
 To compile the project:
 ```
 git clone https://git.purparmalm.com/maximeNoiret/c-bingo
