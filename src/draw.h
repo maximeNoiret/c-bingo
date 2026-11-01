@@ -3,21 +3,13 @@
 
 #define GENERAL_PAD             2
 #define BAR_WIDTH               24
+#define BOTTOM_BAR_WIDTH        40
+#define BOTTOM_BUTTON_COEF      28
 
-constexpr unsigned ELEMS                = 5;
-constexpr unsigned TOTAL_ELEMS          = ELEMS*ELEMS;
-constexpr unsigned ELEM_WIDTH           = 100;
-constexpr unsigned CONTENT_X            = GENERAL_PAD;
-constexpr unsigned CONTENT_Y            = (BAR_WIDTH + GENERAL_PAD);
-constexpr unsigned CONTENT_WIDTH        = (ELEMS * ELEM_WIDTH + (ELEMS+1) * GENERAL_PAD);
-constexpr unsigned CONTENT_HEIGHT       = (ELEMS * ELEM_WIDTH + (ELEMS+1) * GENERAL_PAD);
-
-constexpr unsigned BOTTOM_BAR_WIDTH     = 40;
-constexpr unsigned BOTTOM_BAR_BTN_H     = BOTTOM_BAR_WIDTH - 2 * GENERAL_PAD;
-constexpr unsigned BOTTOM_BAR_BTN_W     = ELEMS*28;
-
-constexpr unsigned WINDOW_WIDTH         = (CONTENT_WIDTH + 2*GENERAL_PAD);
-constexpr unsigned WINDOW_HEIGHT        = (CONTENT_HEIGHT + 2*GENERAL_PAD + BAR_WIDTH + BOTTOM_BAR_WIDTH);
+// These two will go once settings file is implemented
+#define DEFAULT_ELEMS           5
+#define DEFAULT_ELEM_WIDTH      100
+#define MAX_ELEM_COUNT          121  // TODO: This is equivalent to 11x11.
 
 #define TEXT_NUM        128
 #define TEXT_MAX_LEN    64
@@ -51,9 +43,9 @@ enum SAVE_BTNS {
 struct States {
         struct Config *config;
         char pool[TEXT_NUM][TEXT_MAX_LEN];
-        char *slot_texts[TOTAL_ELEMS];
+        char *slot_texts[MAX_ELEM_COUNT];
         size_t text_num;
-        int slots[TOTAL_ELEMS];
+        int slots[MAX_ELEM_COUNT];
         enum SUB_PAGE page;
         char buf[MAX_FILE_PATH_LEN];
         char msg[MAX_MSG_LEN];

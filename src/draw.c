@@ -8,8 +8,6 @@
 #include "work.h"
 
 
-const Rectangle content_rect = {CONTENT_X, CONTENT_Y, CONTENT_WIDTH, CONTENT_HEIGHT};
-
 Rectangle NextRight(struct Stack *s)
 {
         Rectangle r = { s->x, s->y, s->w, s->h };
@@ -36,16 +34,16 @@ void drawBottomBar(struct States *s)
 {
         Rectangle botbar_boundaries = {
                 GENERAL_PAD,
-                CONTENT_Y + CONTENT_HEIGHT + GENERAL_PAD,
-                CONTENT_WIDTH,
-                BOTTOM_BAR_WIDTH - GENERAL_PAD
+                s->config->content_y + s->config->content_height + GENERAL_PAD,
+                s->config->content_width,
+                s->config->bottom_bar_width - GENERAL_PAD
         };
         struct Stack botbar = {
                 .boundaries = botbar_boundaries,
                 .x = GENERAL_PAD,
-                .y = CONTENT_Y + CONTENT_HEIGHT + GENERAL_PAD,
-                .w = BOTTOM_BAR_BTN_W,
-                .h = BOTTOM_BAR_BTN_H,
+                .y = s->config->content_y + s->config->content_height + GENERAL_PAD,
+                .w = s->config->bottom_bar_btn_w,
+                .h = s->config->bottom_bar_btn_h,
                 .gap = GENERAL_PAD*2
         };
         // SAVE button
@@ -67,11 +65,12 @@ void drawBottomBar(struct States *s)
         }
         GuiButton(btn_rect, "Load Board");
 
+        // SETTINGS button
         Rectangle settings_btn = {
-                botbar_boundaries.x + botbar_boundaries.width - BOTTOM_BAR_BTN_W,
+                botbar_boundaries.x + botbar_boundaries.width - s->config->bottom_bar_btn_w,
                 botbar_boundaries.y,
-                BOTTOM_BAR_BTN_W,
-                BOTTOM_BAR_BTN_H};
+                s->config->bottom_bar_btn_w,
+                s->config->bottom_bar_btn_h};
         if (!GuiIsLocked() &&
                 CheckCollisionPointRec(GetMousePosition(), settings_btn) &&
                 IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
@@ -82,10 +81,10 @@ void drawBottomBar(struct States *s)
 
         // refresh button is square. W = H
         Rectangle refresh_btn = {
-                settings_btn.x - BOTTOM_BAR_BTN_H - GENERAL_PAD,
+                settings_btn.x - s->config->bottom_bar_btn_h - GENERAL_PAD,
                 botbar_boundaries.y,
-                BOTTOM_BAR_BTN_H,
-                BOTTOM_BAR_BTN_H};
+                s->config->bottom_bar_btn_h,
+                s->config->bottom_bar_btn_h};
         if (!GuiIsLocked() &&
                 CheckCollisionPointRec(GetMousePosition(), refresh_btn) &&
                 IsMouseButtonReleased(MOUSE_BUTTON_LEFT)) {
@@ -98,22 +97,22 @@ void drawBoard(struct States *s)
 {
         // content boundaries and stack
         Rectangle bingo_boundaries = {
-                content_rect.x + GENERAL_PAD,
-                content_rect.y + GENERAL_PAD,
-                content_rect.width - 2*GENERAL_PAD,
-                content_rect.height - 2*GENERAL_PAD
+                s->config->content_x + GENERAL_PAD,
+                s->config->content_y + GENERAL_PAD,
+                s->config->content_width - 2*GENERAL_PAD,
+                s->config->content_height - 2*GENERAL_PAD
         };
         struct Stack bingo_board = {
                 .boundaries = bingo_boundaries,
-                .x = CONTENT_X + GENERAL_PAD,
-                .y = CONTENT_Y + GENERAL_PAD,
-                .w = ELEM_WIDTH,
-                .h = ELEM_WIDTH,
+                .x = s->config->content_x + GENERAL_PAD,
+                .y = s->config->content_y + GENERAL_PAD,
+                .w = s->config->space_width,
+                .h = s->config->space_width,
                 .gap = GENERAL_PAD
         };
         // bingo buttons
         if (s->page != PAGE_NONE) GuiLock();
-        for (unsigned i = 0; i < TOTAL_ELEMS; ++i) {
+        for (unsigned i = 0; i < s->config->board_spaces; ++i) {
                 Rectangle btn_rect = NextRight(&bingo_board);
                 if (
                         !GuiIsLocked() &&
@@ -130,7 +129,11 @@ void drawBoard(struct States *s)
 
 void drawContent(struct States *s)
 {
-        GuiGroupBox(content_rect, NULL);
+        GuiGroupBox((Rectangle){
+                s->config->content_x,
+                s->config->content_y,
+                s->config->content_width,
+                s->config->content_height}, NULL);
         
         drawBoard(s);
         switch (s->page) {

@@ -10,21 +10,20 @@
 
 int main(void)
 {
-        InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Bingo");
-        EnableEventWaiting();
-        SetTargetFPS(20);
-        SetExitKey(0);
-
         srand(time(NULL));
 
         // TODO: load config from config file
         struct Config config = {
                 .wordlist_src = {0},
+                .board_width = DEFAULT_ELEMS,
+                .space_width = DEFAULT_ELEM_WIDTH,
                 .autosave = true,
                 .freeSpace = true
         };
         // This is temporary. Requires load config from file
         strncpy(config.wordlist_src, "wordlist.txt", MAX_FILE_PATH_LEN);
+
+        refreshConfig(&config);
 
         struct States states = {
                 .config = &config,
@@ -41,6 +40,11 @@ int main(void)
         if (states.page != PAGE_ERR)
                 generateTexts(&states);
 
+        InitWindow(config.window_width, config.window_height, "Bingo");
+        EnableEventWaiting();
+        SetTargetFPS(20);
+        SetExitKey(0);
+
         while (!states.stop)
         {
                 BeginDrawing();
@@ -54,7 +58,7 @@ int main(void)
 
                 ClearBackground(GetColor(GuiGetStyle(DEFAULT, BACKGROUND_COLOR)));
                 if (GuiWindowBox(
-                        (Rectangle){0, 0, WINDOW_WIDTH, WINDOW_HEIGHT},
+                        (Rectangle){0, 0, config.window_width, config.window_height},
                         "Bingo") == 1)
                         states.stop = true;
 
