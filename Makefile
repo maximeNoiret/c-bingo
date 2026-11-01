@@ -46,4 +46,4 @@ uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/bingo
 
 clean:
-	rm -rf $(BLDDIR)
+	rm -rf $(BLDDIR) build-win
