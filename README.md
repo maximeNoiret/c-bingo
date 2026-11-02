@@ -38,6 +38,9 @@ You can create pull requests with code changes suggestions. I will review them a
 - Try to limit your lines to at most 100 characters, too. If you really can't, it's not that bad, but yeah.
     - It's okay to go past that if writing a long string tho
 
+> [!NOTE]
+> If you do actually read the code, it is messy, but I have planned to refactor it into a cleaner codebase.
+
 At least for now, you can also contribute by simply writing a better `wordlist.txt` because the current one is AI slop and I can't be bothered to make a better "example" wordlist lol
 
 > [!WARNING]
